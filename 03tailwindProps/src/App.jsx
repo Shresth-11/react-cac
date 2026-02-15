@@ -22,3 +22,10 @@ function App() {
 }
 
 export default App
+
+
+// In react there is still a concept of virtual dom and it updated by use of fibre algorithm
+
+// Reconciliation is the algorithm behind what is probably understood  as the "Virtual DOM"
+
+// Reconciliation is the algortihm comparing between the two trees (virtual dom & dom), it is the diff algorithm
