@@ -30,11 +30,24 @@ const anotherElement = (
 
 const anotherUser = "Chai aur react"
 
+
+
+// Down we have an evaluated expression in which we cant directly write if-else ,
+//  there final outcome is required coz it is an evaluated expression
+
+
+
+
+
+
+
+
+
 const reactElement = React.createElement(
-  'a',
+  'a', // babel injects these automatically
   {href: 'https://google.com', target: '_blank'},
   'click me to visit google',
-  anotherUser
+  anotherUser     // jab sara tree bnn jata h uske baad humare aate h variable which we inject in the element
 )
 
 
