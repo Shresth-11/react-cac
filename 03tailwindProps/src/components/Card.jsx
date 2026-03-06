@@ -1,5 +1,7 @@
 import React from 'react'
 
+// Props make components reusable
+
 function Card({username, btnText="visit me"}) {
     console.log(username);
   return (
