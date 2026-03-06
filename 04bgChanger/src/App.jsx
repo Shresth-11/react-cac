@@ -8,6 +8,8 @@ function App() {
       className="w-full h-screen duration-200"
       style={{ backgroundColor: color }}
     >
+
+      {/* onClick expects a function ------>> imp for its application in react with setColor method */}
       <div
         className="fixed flex flex-wrap
        justify-center bottom-12 inset-x-0 px-2"
