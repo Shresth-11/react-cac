@@ -1,6 +1,13 @@
 import { useState } from 'react'
 import './App.css'
 
+
+// React gives many hooks to update the UI easily
+
+
+
+
+
 function App() {
 
   const [counter, setCounter]  = useState(15)
