@@ -1,31 +1,35 @@
 import React, { useState, useContext } from "react";
 import UserContext from "../context/userContext";
 
+// Redux ka kaam hai state manage krna ,
+// data yha se wha jo pass ho ra usko achi tareeke se handle krke deliver krna
+
 function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+  const {setUser} = useContext(UserContext);
 
-    const setUser = useContext(UserContext)
-
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      setUser({username, password})
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUser({ username, password });
+  };
 
   return (
     <div>
       <h2>Login</h2>
-      <input type="text"
-      value={username}
-      onChange={(e) => setUsername(e.target.value)}
-      placeholder="username" />
-      {" "}
-
-      <input type="password" 
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      placeholder="password" />
+      <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="username"
+      />{" "}
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="password"
+      />
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );
