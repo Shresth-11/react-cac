@@ -9,82 +9,108 @@ import { useForm } from "react-hook-form";
 function Signup() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const create = async (data) => {
     setError("");
+    setLoading(true);
     try {
-      const userData = await authService.createAccount(data);
-      if (userData) {
+      const userAccount = await authService.createAccount(data);
+      if (userAccount) {
         const userData = await authService.getCurrentUser();
         if (userData) dispatch(login(userData));
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "Failed to create account. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div
-        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
-      >
-        <div className="mb-2 flex justify-center">
-          <span className="inline-block w-full max-w-25">
+    <div className="flex items-center justify-center w-full min-h-[70vh] py-12 px-4 relative overflow-hidden">
+      {/* Background neon glows */}
+      <div className="absolute top-1/4 left-1/3 w-60 h-60 rounded-full bg-violet-600/5 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/3 w-60 h-60 rounded-full bg-cyan-500/5 blur-[100px] pointer-events-none" />
+
+      {/* Frosted Glass Container */}
+      <div className="mx-auto w-full max-w-md rounded-3xl bg-zinc-900/40 border border-zinc-800/80 p-8 sm:p-10 backdrop-blur-md shadow-2xl relative z-10">
+        
+        {/* Brand Logo Header */}
+        <div className="mb-6 flex justify-center">
+          <Link to="/" className="inline-block hover:opacity-90 transition-opacity">
             <Logo width="100%" />
-          </span>
+          </Link>
         </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          Sign up to create account
+
+        {/* Heading tags */}
+        <h2 className="text-center text-2xl font-extrabold text-white leading-tight">
+          Create Account
         </h2>
-        <p className="mt-2 text-center text-base text-black/60">
+        <p className="mt-2 text-center text-sm text-zinc-400">
           Already have an account?&nbsp;
           <Link
             to="/login"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
+            className="font-semibold text-violet-400 hover:text-violet-300 transition-colors duration-200"
           >
             Sign In
           </Link>
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
-        <form onSubmit={handleSubmit(create)}>
-          <div className="space-y-5">
+        {/* Inline Errors */}
+        {error && (
+          <div className="mt-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold text-center leading-relaxed">
+            ⚠️ {error}
+          </div>
+        )}
+
+        {/* Inputs */}
+        <form onSubmit={handleSubmit(create)} className="mt-6">
+          <div className="flex flex-col gap-5">
             <Input
-              label="Full Name: "
+              label="Full Name"
               placeholder="Enter your full name"
               {...register("name", {
-                required: true,
+                required: "Full name is required",
               })}
             />
             <Input
-              label="Email: "
+              label="Email Address"
               placeholder="Enter your email"
               type="email"
+              autoComplete="email"
               {...register("email", {
-                required: true,
+                required: "Email is required",
                 validate: {
-                  matchPatern: (value) =>
+                  matchPattern: (value) =>
                     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                     "Email address must be a valid address",
                 },
               })}
             />
             <Input
-              label="Password: "
+              label="Password"
               type="password"
-              placeholder="Enter your password"
+              placeholder="Create a strong password"
+              autoComplete="new-password"
               {...register("password", {
-                required: true,
+                required: "Password is required",
               })}
             />
-            <Button type="submit" className="w-full">
-              Create Account
+            
+            <Button
+              type="submit"
+              className="w-full mt-2 font-bold cursor-pointer py-3"
+              disabled={loading}
+            >
+              {loading ? "Creating Account..." : "Create Account"}
             </Button>
           </div>
         </form>
+
       </div>
     </div>
   );
