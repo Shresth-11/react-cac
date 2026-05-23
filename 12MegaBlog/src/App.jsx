@@ -16,18 +16,16 @@ function App() {
       .getCurrentUser()
       .then((userData) => {
         if (userData) {
-          dispatch(login({ userData }));
+          dispatch(login(userData));
         } else {
           dispatch(logout());
         }
-        setLoading(false);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [dispatch]);
 
   return !loading ? (
-    <div className="min-h-screen bg-gray-400 flex 
-    flex-wrap content-between">
+    <div className="min-h-screen bg-gray-400 flex flex-wrap content-between">
       <div className="w-full block">
         <Header/>
         <main>
@@ -35,9 +33,12 @@ function App() {
         </main>
         <Footer/>
       </div>
+    </div>
+  ) : (
+    <div className="min-h-screen bg-gray-400 flex justify-center items-center text-2xl font-semibold text-white">
       Loading...
     </div>
-  ) : null;
+  );
 }
 
 export default App;

@@ -24,7 +24,12 @@ export default function Protected({children, authentication = true}) {
         } else if(!authentication && authStatus !== authentication){
             navigate("/")
         }
-        setLoader(false)
+        
+        const timer = setTimeout(() => {
+            setLoader(false)
+        }, 0)
+
+        return () => clearTimeout(timer)
     }, [authStatus, navigate, authentication])
 
 
